@@ -1,20 +1,14 @@
-const io = require('socket.io')(server);
-let messages = [];
+let usersAndMessages = [];
 
-io.on('connection', socket => {
-  socket.emit('previousMessages', messages);
-  socket.on('sendMessage', data => {
-    messages.push(data);
-    socket.broadcast.emit('receivedMessage', data);
-  });
-});
+export default function messages(req, res) {
+  const { username, text } = req.body;
 
-export default messages(req, res) => {
   if (req.method === 'POST') {
-    res.statusCode = 201;
-    res.json({ username: 'John Doe', message: 'safe' });
+    usersAndMessages.push(req.body);
+
+    res.status(201)
+       .json({ username: username, message: text });
   } else {
-    res.statusCode = 200;
-    res.json({ messages: messages });
+    res.json({ messages: usersAndMessages });
   }
 }
