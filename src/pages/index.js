@@ -1,6 +1,21 @@
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+
 function Home() {
+  const [userName, setUserName] = useState();
+  const router = useRouter();
+
+  useEffect(() => {
+    setUser(localStorage.getItem('user'));
+
+    if (!user) {
+      router.push('/login');
+    }
+  });
+
   return (
-    <p>safe do brafe</p>
+    <div class="container"> 
+    </div>
   )
 }
 
